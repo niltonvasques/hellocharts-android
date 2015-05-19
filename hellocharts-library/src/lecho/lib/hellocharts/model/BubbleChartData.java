@@ -19,7 +19,7 @@ public class BubbleChartData extends AbstractChartData {
     private int minBubbleRadius = DEFAULT_MIN_BUBBLE_RADIUS_DP;
     private float bubbleScale = DEFAULT_BUBBLE_SCALE;
     // TODO: consider Collections.emptyList()
-    private List<BubbleValue> values = new ArrayList<BubbleValue>();
+    private List<BubbleValue> values = new ArrayList<BubbleValue>();    
 
     public BubbleChartData() {
     }

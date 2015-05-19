@@ -1,5 +1,7 @@
 package lecho.lib.hellocharts.model;
 
+import java.util.List;
+
 /**
  * Data model for combo line-column chart. It uses ColumnChartData and LineChartData internally.
  */

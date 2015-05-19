@@ -133,5 +133,4 @@ public class ColumnChartData extends AbstractChartData {
         this.baseValue = baseValue;
         return this;
     }
-
 }

@@ -11,6 +11,7 @@ import lecho.lib.hellocharts.model.SelectedValue;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.renderer.AxesRenderer;
 import lecho.lib.hellocharts.renderer.ChartRenderer;
+import lecho.lib.hellocharts.renderer.LegendRenderer;
 
 /**
  * Interface for all charts. Every chart must implements this interface but chart doesn't really have to extends View or
@@ -33,6 +34,8 @@ public interface Chart {
     public ChartComputator getChartComputator();
 
     public ChartTouchHandler getTouchHandler();
+    
+    public LegendRenderer getLegendsRenderer();
 
     /**
      * Updates chart data with given scale. Called during chart data animation update.

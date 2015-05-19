@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 
+import lecho.lib.hellocharts.model.Legend;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
@@ -136,7 +137,7 @@ public class LineChartRenderer extends AbstractChartRenderer {
                 drawPoints(canvas, line, lineIndex, MODE_DRAW);
             }
             ++lineIndex;
-        }
+        }       
         if (isTouched()) {
             // Redraw touched point to bring it to the front
             highlightPoints(canvas);
@@ -471,6 +472,54 @@ public class LineChartRenderer extends AbstractChartRenderer {
         labelBackgroundRect.set(left, top, right, bottom);
         drawLabelTextAndBackground(canvas, labelBuffer, labelBuffer.length - numChars, numChars,
                 line.getDarkenColor());
+    }
+    
+    private void drawLegend(Canvas canvas, Legend legend) {
+        final Rect contentRect = computator.getContentRectMinusAllMargins();
+        float rawX = (contentRect.right+contentRect.left)/2, rawY = 10, offset = 0;
+        labelBuffer = legend.getLegendName().toCharArray();
+        final int numChars = labelBuffer.length;
+        if (numChars == 0) {
+            // No need to draw empty label
+            return;
+        }
+
+        final float labelWidth = labelPaint.measureText(labelBuffer, labelBuffer.length - numChars, numChars);
+        final int labelHeight = Math.abs(fontMetrics.ascent);
+        float left = rawX - labelWidth / 2 - labelMargin;
+        float right = rawX + labelWidth / 2 + labelMargin;
+
+        float top;
+        float bottom;
+
+        if (10 >= baseValue) {
+            top = rawY - offset - labelHeight - labelMargin * 2;
+            bottom = rawY - offset;
+        } else {
+            top = rawY + offset;
+            bottom = rawY + offset + labelHeight + labelMargin * 2;
+        }
+
+        if (top < contentRect.top) {
+            top = rawY + offset;
+            bottom = rawY + offset + labelHeight + labelMargin * 2;
+        }
+        if (bottom > contentRect.bottom) {
+            top = rawY - offset - labelHeight - labelMargin * 2;
+            bottom = rawY - offset;
+        }
+        if (left < contentRect.left) {
+            left = rawX;
+            right = rawX + labelWidth + labelMargin * 2;
+        }
+        if (right > contentRect.right) {
+            left = rawX - labelWidth - labelMargin * 2;
+            right = rawX;
+        }
+
+        labelBackgroundRect.set(left, top, right, bottom);
+        drawLabelTextAndBackground(canvas, labelBuffer, labelBuffer.length - numChars, numChars,
+                legend.getLegendColor());
     }
 
     private void drawArea(Canvas canvas, Line line) {

@@ -24,6 +24,7 @@ import lecho.lib.hellocharts.model.SelectedValue;
 import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.renderer.AxesRenderer;
 import lecho.lib.hellocharts.renderer.ChartRenderer;
+import lecho.lib.hellocharts.renderer.LegendRenderer;
 import lecho.lib.hellocharts.util.ChartUtils;
 
 /**
@@ -34,6 +35,7 @@ import lecho.lib.hellocharts.util.ChartUtils;
 public abstract class AbstractChartView extends View implements Chart {
     protected ChartComputator chartComputator;
     protected AxesRenderer axesRenderer;
+    protected LegendRenderer legendsRenderer;
     protected ChartTouchHandler touchHandler;
     protected ChartRenderer chartRenderer;
     protected ChartDataAnimator dataAnimator;
@@ -55,6 +57,7 @@ public abstract class AbstractChartView extends View implements Chart {
         chartComputator = new ChartComputator();
         touchHandler = new ChartTouchHandler(context, this);
         axesRenderer = new AxesRenderer(context, this);
+        legendsRenderer = new LegendRenderer(context, this);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             this.dataAnimator = new ChartDataAnimatorV8(this);
@@ -77,6 +80,7 @@ public abstract class AbstractChartView extends View implements Chart {
                 getPaddingBottom());
         chartRenderer.onChartSizeChanged();
         axesRenderer.onChartSizeChanged();
+        legendsRenderer.onChartSizeChanged();
     }
 
     @Override
@@ -91,6 +95,7 @@ public abstract class AbstractChartView extends View implements Chart {
             canvas.restoreToCount(clipRestoreCount);
             chartRenderer.drawUnclipped(canvas);
             axesRenderer.drawInForeground(canvas);
+            legendsRenderer.drawInForeground(canvas);
         } else {
             canvas.drawColor(ChartUtils.DEFAULT_COLOR);
         }
@@ -190,6 +195,11 @@ public abstract class AbstractChartView extends View implements Chart {
     @Override
     public AxesRenderer getAxesRenderer() {
         return axesRenderer;
+    }
+    
+    @Override
+    public LegendRenderer getLegendsRenderer() {
+        return legendsRenderer;
     }
 
     @Override
@@ -470,6 +480,7 @@ public abstract class AbstractChartView extends View implements Chart {
         chartComputator.resetContentRect();
         chartRenderer.onChartDataChanged();
         axesRenderer.onChartDataChanged();
+        legendsRenderer.onChartDataChanged();
         ViewCompat.postInvalidateOnAnimation(this);
     }
 

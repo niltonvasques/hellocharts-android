@@ -23,6 +23,7 @@ public class ChartComputator {
     //contentRectMinusAllMargins <= contentRectMinusAxesMargins <= maxContentRect
     protected Rect contentRectMinusAllMargins = new Rect();
     protected Rect contentRectMinusAxesMargins = new Rect();
+    protected Rect contentRectMinusLegendsMargins = new Rect();
     protected Rect maxContentRect = new Rect();
     /**
      * This rectangle represents the currently visible chart values ranges. The currently visible chart X values are
@@ -49,11 +50,13 @@ public class ChartComputator {
         chartHeight = height;
         maxContentRect.set(paddingLeft, paddingTop, width - paddingRight, height - paddingBottom);
         contentRectMinusAxesMargins.set(maxContentRect);
+        contentRectMinusLegendsMargins.set(maxContentRect);
         contentRectMinusAllMargins.set(maxContentRect);
     }
 
     public void resetContentRect() {
         contentRectMinusAxesMargins.set(maxContentRect);
+        contentRectMinusLegendsMargins.set(maxContentRect);
         contentRectMinusAllMargins.set(maxContentRect);
     }
 
@@ -62,6 +65,16 @@ public class ChartComputator {
         contentRectMinusAxesMargins.top = contentRectMinusAxesMargins.top + deltaTop;
         contentRectMinusAxesMargins.right = contentRectMinusAxesMargins.right - deltaRight;
         contentRectMinusAxesMargins.bottom = contentRectMinusAxesMargins.bottom - deltaBottom;
+
+        insetContentRectByInternalMargins(deltaLeft, deltaTop, deltaRight, deltaBottom);
+    }
+    
+    public void insetContentLegendsRect(int deltaLeft, int deltaTop, int deltaRight, int deltaBottom) {
+        
+        contentRectMinusLegendsMargins.left = contentRectMinusLegendsMargins.left + deltaLeft;
+        contentRectMinusLegendsMargins.top = contentRectMinusLegendsMargins.top + deltaTop;
+        contentRectMinusLegendsMargins.right = contentRectMinusLegendsMargins.right - deltaRight;
+        contentRectMinusLegendsMargins.bottom = contentRectMinusLegendsMargins.bottom - deltaBottom;
 
         insetContentRectByInternalMargins(deltaLeft, deltaTop, deltaRight, deltaBottom);
     }
@@ -228,6 +241,17 @@ public class ChartComputator {
      */
     public Rect getContentRectMinusAxesMargins() {
         return contentRectMinusAxesMargins;
+    }
+    
+    /**
+     * Returns content rectangle with chart internal margins, for example for LineChart contentRectMinusAxesMargins is
+     * bigger
+     * than contentRectMinusAllMargins by point radius, thanks to that points are not cut on edges.
+     *
+     * @see #setContentRect(int, int, int, int, int, int)
+     */
+    public Rect getContentRectMinusLegendsMargins() {
+        return contentRectMinusLegendsMargins;
     }
 
     /**

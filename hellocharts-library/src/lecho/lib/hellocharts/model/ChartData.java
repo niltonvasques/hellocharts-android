@@ -1,5 +1,7 @@
 package lecho.lib.hellocharts.model;
 
+import java.util.List;
+
 import android.graphics.Typeface;
 
 /**
@@ -131,4 +133,17 @@ public interface ChartData {
      * green.
      */
     public void setValueLabelBackgroundColor(int valueLabelBackgroundColor);
+    
+    /**
+     * Set legends
+     * green.
+     */
+    public void setLegends(List<Legend> legends);
+    
+    /**
+     * get legends
+     * green.
+     */
+    public List<Legend> getLegends();
+    
 }

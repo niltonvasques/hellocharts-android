@@ -36,6 +36,7 @@ public class Line {
     private PathEffect pathEffect;
     private LineChartValueFormatter formatter = new SimpleLineChartValueFormatter();
     private List<PointValue> values = new ArrayList<PointValue>();
+    private String name;
 
     public Line() {
 

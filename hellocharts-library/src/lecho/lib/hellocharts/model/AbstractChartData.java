@@ -1,5 +1,8 @@
 package lecho.lib.hellocharts.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Color;
 import android.graphics.Typeface;
 
@@ -17,6 +20,7 @@ public abstract class AbstractChartData implements ChartData {
     protected int valueLabelTextColor = Color.WHITE;
     protected int valueLabelTextSize = DEFAULT_TEXT_SIZE_SP;
     protected Typeface valueLabelTypeface;
+    private List<Legend> legends = new ArrayList<Legend>();
 
     /**
      * If true each value label will have background rectangle
@@ -162,5 +166,15 @@ public abstract class AbstractChartData implements ChartData {
     public void setValueLabelBackgroundColor(int valueLabelBackgroundColor) {
         this.valueLabelBackgroundColor = valueLabelBackgroundColor;
     }
+    
+	@Override
+	public void setLegends(List<Legend> legends) {		
+		this.legends.addAll(legends);
+	}
+
+	@Override
+	public List<Legend> getLegends() {
+		return legends;
+	}   
 
 }
